@@ -21,8 +21,6 @@ app.use('/api',routes);
 
 app.use(errorHandler);
 
-
-
 app.listen(port,()=>{
      console.log(`server start listing on port ${port}`);
 })
