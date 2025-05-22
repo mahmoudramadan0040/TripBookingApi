@@ -23,7 +23,9 @@ app.use(express.json())
 app.use(passport.initialize())
 app.use(passport.session())
 
-
+app.get("/api/protected",(req,res,next)=>{
+  res.send("<p>hello protected</p>")
+})
 app.use('/api', routes)
 
 // error handler middleware

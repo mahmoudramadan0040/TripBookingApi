@@ -21,8 +21,8 @@ class AuthController {
     try {
       console.log(req.user)
       passport.authenticate('google', {
-        successRedirect: 'api/protected',
-        failureRedirect: 'api/auth/failure',
+        successRedirect: '/api/protected',
+        failureRedirect: '/api/auth/failure',
       })(req, res, next)
     } catch (error) {
       return next(error)
