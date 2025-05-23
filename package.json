@@ -14,10 +14,17 @@
     "lint": "eslint src/**/*.ts --fix"
   },
   "dependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/express": "^5.0.2",
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.15.21",
+    "@types/nodemailer": "^6.4.17",
     "@types/passport-google-oauth20": "^2.0.16",
+    "@types/passport-local": "^1.0.38",
+    "@types/sequelize": "^4.28.20",
+    "@types/swagger-ui-express": "^4.1.8",
+    "@types/yamljs": "^0.2.34",
+    "bcrypt": "^6.0.0",
     "dotenv": "^16.5.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.4.0",
@@ -25,15 +32,19 @@
     "express-session": "^1.18.1",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
+    "nodemailer": "^7.0.3",
     "nodemon": "^3.1.10",
     "passport": "^0.7.0",
     "passport-google-oauth2": "^0.2.0",
     "passport-google-oauth20": "^2.0.0",
+    "passport-local": "^1.0.0",
     "pg": "^8.16.0",
     "pg-hstore": "^2.3.4",
     "prettier": "^3.5.3",
     "sequelize": "^6.37.7",
-    "ts-node": "^10.9.2"
+    "swagger-ui-express": "^5.0.1",
+    "ts-node": "^10.9.2",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.27.0",

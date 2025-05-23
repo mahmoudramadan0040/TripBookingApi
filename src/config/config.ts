@@ -16,6 +16,8 @@ const {
   GOOGLE_CLIENT_SECRET,
   GOOGLE_CALLBACK_URL,
   EXPRESS_SESSION_SECRET,
+  EMAIL_ADMIN_SENDER,
+  EMAIL_ADMIN_PASSWORD,
 } = process.env
 
 const config = {
@@ -28,11 +30,14 @@ const config = {
   pepper: BYCRPTE_PASS,
   salt: SALT_ROUNDS,
   token_secret: TOKEN_SECRET,
-
+  
   google_client_id: GOOGLE_CLIENT_ID,
   gooogle_client_secret: GOOGLE_CLIENT_SECRET,
   google_callback_url: GOOGLE_CALLBACK_URL,
 
-  express_session_secret:EXPRESS_SESSION_SECRET
+  express_session_secret: EXPRESS_SESSION_SECRET,
+
+  email_admin_sender:EMAIL_ADMIN_SENDER,
+  email_admin_password:EMAIL_ADMIN_PASSWORD
 }
 export default config

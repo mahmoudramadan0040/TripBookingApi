@@ -1,15 +1,22 @@
 import express from 'express'
 import morgan from 'morgan'
 import routes from './routes'
+import connect from './database'
 import { errorHandler } from './middlewares/ErrorHandler'
 import config from './config/config'
 import './config/passport'
 import passport from 'passport'
 import session from 'express-session'
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
+
+
 
 const app = express()
 const port = config.port || 3000
 
+const swaggerDocument = YAML.load('./swagger.yaml');
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // use the session middleware
 app.use(
   session({
@@ -22,7 +29,8 @@ app.use(morgan('common'))
 app.use(express.json())
 app.use(passport.initialize())
 app.use(passport.session())
-
+// connect to database 
+connect();
 app.get("/api/protected",(req,res,next)=>{
   res.send("<p>hello protected</p>")
 })
