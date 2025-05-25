@@ -25,7 +25,7 @@ const {
 
 const config = {
   port: PORT,
-  db: NODE_ENVIRONMENT === 'dev' ? POSTGRESS_DB : POSTGRESS_DB_TEST,
+  db:  POSTGRESS_DB,
   db_port: parseInt(POSTGRESS_PORT as string),
   db_user: POSTGRESS_USER,
   db_password: POSTGRESS_PASSWORD,

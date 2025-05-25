@@ -25,7 +25,7 @@ Transportion.init(
       allowNull: false,
     },
     Duration: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
     include:{

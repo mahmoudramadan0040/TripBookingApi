@@ -5,7 +5,7 @@ const connect = () => {
 
   db.sync({
     logging: console.log,
-    force: true,
+    alter: true,
   })
     .then(() => {
       console.log('Connection has been established successfully.')
