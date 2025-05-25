@@ -37,11 +37,12 @@ getTransportationById = async (req: Request, res: Response,next:NextFunction) =>
   try {
     const { id } = req.params;
     const transportation = await Transportion.findByPk(id);
-    if (!transportation) return res.status(404).json({ message: 'Not found' });
+    if (!transportation)  res.status(404).json({ message: 'Not found' });
 
     res.json({ data: transportation });
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching transportation', error });
+    // res.status(500).json({ message: 'Error fetching transportation', error });
+    next(error)
   }
 };
 
@@ -51,12 +52,13 @@ updateTransportation = async (req: Request, res: Response,next:NextFunction) => 
     const { id } = req.params;
     const [updated] = await Transportion.update(req.body, { where: { id } });
 
-    if (!updated) return res.status(404).json({ message: 'Not found or no changes' });
+    if (!updated)  res.status(404).json({ message: 'Not found or no changes' });
 
     const updatedTransportation = await Transportion.findByPk(id);
     res.json({ message: 'Updated successfully', data: updatedTransportation });
   } catch (error) {
-    res.status(500).json({ message: 'Error updating transportation', error });
+    // res.status(500).json({ message: 'Error updating transportation', error });
+    next(error)
   }
 };
 
@@ -66,11 +68,12 @@ deleteTransportation = async (req: Request, res: Response,next:NextFunction) => 
     const { id } = req.params;
     const deleted = await Transportion.destroy({ where: { id } });
 
-    if (!deleted) return res.status(404).json({ message: 'Not found' });
+    if (!deleted)  res.status(404).json({ message: 'Not found' });
 
     res.json({ message: 'Deleted successfully' });
   } catch (error) {
-    res.status(500).json({ message: 'Error deleting transportation', error });
+    // res.status(500).json({ message: 'Error deleting transportation', error });
+    next(error)
   }
 };
 
