@@ -18,6 +18,9 @@ const {
   EXPRESS_SESSION_SECRET,
   EMAIL_ADMIN_SENDER,
   EMAIL_ADMIN_PASSWORD,
+  STORAGE_CLOUD_NAME,
+  STORAGE_CLOUD_PASSWORD,
+  STORAGE_CLOUD_KEY
 } = process.env
 
 const config = {
@@ -38,6 +41,11 @@ const config = {
   express_session_secret: EXPRESS_SESSION_SECRET,
 
   email_admin_sender:EMAIL_ADMIN_SENDER,
-  email_admin_password:EMAIL_ADMIN_PASSWORD
+  email_admin_password:EMAIL_ADMIN_PASSWORD,
+
+  cloud_stroge_name:STORAGE_CLOUD_NAME,
+  cloud_storage_key:STORAGE_CLOUD_KEY,
+  cloud_storage_secret:STORAGE_CLOUD_PASSWORD
+
 }
 export default config
