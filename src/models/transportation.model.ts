@@ -1,15 +1,16 @@
 import { DataTypes, Model, Optional } from 'sequelize'
 import sequelize from '../database/connect'
-class Transportion extends Model
-{
+class Transportion extends Model {
   public id!: string
   public title!: string
   public Duration!: number
   public Description!: string
-  public include?: string[] | null
-  public exclude?: string[] | null
-  public highlight?:String[] | null
-  public images?: string[]|null
+  public included!: string[] | null
+  public excluded!: string[] | null
+  public highlight!: string[] | null
+  public localImages!: string[] | null
+  public cloudImages!: string[] | null
+  public price!: string | null
   public readonly createdAt!: Date
   public readonly updatedAt!: Date
 }
@@ -24,26 +25,38 @@ Transportion.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    price: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     Duration: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
-    include:{
-        type:DataTypes.ARRAY(DataTypes.STRING),
-        allowNull: true,
+    included: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: true,
     },
-    exclude:{
-        type:DataTypes.ARRAY(DataTypes.STRING),
-        allowNull: true,
+    excluded: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: true,
     },
-    highlight:{
-        type:DataTypes.ARRAY(DataTypes.STRING),
-        allowNull: true,
+    highlight: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: true,
     },
-    images:{
-      type:DataTypes.ARRAY(DataTypes.STRING),
-      allowNull:true
-    }
+    cloudImages: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: true,
+    },
+    localImages: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: true,
+    },
+    IsDeleted: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+    },
   },
   {
     sequelize,

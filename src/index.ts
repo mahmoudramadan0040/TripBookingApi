@@ -9,7 +9,7 @@ import passport from 'passport'
 import session from 'express-session'
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
-
+import path from 'path'
 
 
 const app = express()
@@ -25,6 +25,7 @@ app.use(
     saveUninitialized: false,
   }),
 )
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.use(morgan('common'))
 app.use(express.json())
 app.use(passport.initialize())

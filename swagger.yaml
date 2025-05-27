@@ -29,7 +29,6 @@ paths:
         401:
           description: Unauthorized
 
-
   /api/auth/register:
     post:
       summary: Register a new user
@@ -94,9 +93,50 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: '#/components/schemas/TransportationInput'
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: 'Trip to Bali'
+                price:
+                  type: string
+                  example: '500'
+                Duration:
+                  type: integer
+                  example: 5
+                Description:
+                  type: string
+                  example: 'A wonderful trip with many stops.'
+                included:
+                  type: array
+                  items:
+                    type: string
+                  description: JSON stringified array of included items
+                  example: ['Meals', 'Hotel']
+                excluded:
+                  type: array
+                  items:
+                    type: string
+                  description: JSON stringified array of excluded items
+                  example: ['Flights']
+                highlight:
+                  type: array
+                  items:
+                    type: string
+                  description: JSON stringified array of highlights
+                  example: ['Beach', 'Temple']
+                cloudImages:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                localImages:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
       responses:
         '201':
           description: Transportation created
