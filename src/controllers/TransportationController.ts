@@ -3,9 +3,9 @@ import Transportion from "../models/transportation.model";
 class TransportationController{ 
 
 // Create Transportation
-createTransportation = async (req: Request, res: Response,next:NextFunction) => {
+createTransportation = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { title, Duration, Description, include, exclude, highlight } = req.body;
+    const { title, Duration, Description, include, exclude, highlight, images } = req.body;
 
     const newTransportation = await Transportion.create({
       title,
@@ -14,11 +14,12 @@ createTransportation = async (req: Request, res: Response,next:NextFunction) => 
       include,
       exclude,
       highlight,
+      images, // Expecting array of image URLs or paths
     });
 
     res.status(201).json({ message: 'Transportation created', data: newTransportation });
   } catch (error) {
-    res.status(500).json({ message: 'Error creating transportation', error });
+    next(error);
   }
 };
 

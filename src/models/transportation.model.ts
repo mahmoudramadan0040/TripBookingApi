@@ -9,7 +9,7 @@ class Transportion extends Model
   public include?: string[] | null
   public exclude?: string[] | null
   public highlight?:String[] | null
-
+  public images?: string[]|null
   public readonly createdAt!: Date
   public readonly updatedAt!: Date
 }
@@ -39,6 +39,10 @@ Transportion.init(
     highlight:{
         type:DataTypes.ARRAY(DataTypes.STRING),
         allowNull: true,
+    },
+    images:{
+      type:DataTypes.ARRAY(DataTypes.STRING),
+      allowNull:true
     }
   },
   {
