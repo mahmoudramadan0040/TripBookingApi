@@ -1,5 +1,6 @@
 import { DataTypes, Model, Optional } from 'sequelize'
 import sequelize from '../database/connect'
+
 class Transportion extends Model {
   public id!: string
   public title!: string
@@ -42,14 +43,6 @@ Transportion.init(
       allowNull: true,
     },
     highlight: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
-      allowNull: true,
-    },
-    cloudImages: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
-      allowNull: true,
-    },
-    localImages: {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: true,
     },

@@ -1,5 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
 import transportation from '../models/transportation.model'
+import { UpdateToCloudinary } from '../services/StorageCloud.services'
+import TransportationImage from '../models/TransporationImage.model'
+
 class TransportationController {
   // Create Transportation
   createTransportation = async (
@@ -18,36 +21,59 @@ class TransportationController {
         price,
       } = req.body
 
-      // Get Cloudinary uploaded files (if using fieldname: cloudImages)
-      const cloudFiles = (req.files as any)?.cloudImages || []
-      const localFiles = (req.files as any)?.localImages || []
-
-
-      const cloudUrls = Array.isArray(cloudFiles)
-        ? cloudFiles.map((file: any) => file.path)
-        : [] // Cloudinary URL
-
-
-      const localPaths = Array.isArray(localFiles)
-        ? localFiles.map((file: Express.Multer.File) => `/${file.filename}`)
-        : []
-
-
       const newTransportation = await transportation.create({
         title: title,
         Duration: Duration,
         Description: Description,
         included: included,
-        excluded:excluded ,
-        highlight:highlight ,
+        excluded: excluded,
+        highlight: highlight,
         price,
-        cloudImages:cloudUrls ,
-        localImages:localPaths
       })
+      // Get Cloudinary uploaded files (if using fieldname: cloudImages)
+      const cloudFiles = (req.files as any)?.cloudImages || []
+      const localFiles = (req.files as any)?.localImages || []
 
+      const cloudUrls = Array.isArray(cloudFiles)
+        ? cloudFiles.map((file: any) => file.path)
+        : [] // Cloudinary URL
+
+      const localPaths = Array.isArray(localFiles)
+        ? localFiles.map((file: Express.Multer.File) => `/${file.filename}`)
+        : []
+
+      // 2. Prepare TransportationImage records
+      // Assuming TransportationImage model is imported as TransportationImage
+
+      // Add cloud images
+      const imageRecords = [
+        ...cloudUrls.map((url) => ({
+          cloudImage: url,
+          transportationId: newTransportation.id,
+        })),
+        ...localPaths.map((path) => ({
+          localImage: path,
+          transportationId: newTransportation.id,
+        })),
+      ]
+
+      // 3. Bulk create image records if any
+      if (imageRecords.length > 0) {
+        await TransportationImage.bulkCreate(imageRecords)
+      }
+      // 4. Fetch new transportation with images included
+      const createdTransportWithImages = await transportation.findByPk(
+        newTransportation.id,
+        {
+          include: [{ model: TransportationImage, as: 'images' }],
+        },
+      )
       res
         .status(201)
-        .json({ message: 'Transportation created', data: newTransportation })
+        .json({
+          message: 'Transportation created',
+          data: createdTransportWithImages,
+        })
     } catch (error) {
       next(error)
     }
@@ -92,14 +118,22 @@ class TransportationController {
   ) => {
     try {
       const { id } = req.params
-      const [updated] = await transportation.update(req.body, { where: { id } })
+
+      const urls = UpdateToCloudinary(req.files)
+      const updateData = {
+        ...req.body,
+        ...(urls ? { cloudImages: urls } : {}),
+      }
+      const [updated] = await transportation.update(updateData, {
+        where: { id },
+      })
 
       if (!updated) res.status(404).json({ message: 'Not found or no changes' })
 
       const updatedTransportation = await transportation.findByPk(id)
       res.json({ message: 'Updated successfully', data: updatedTransportation })
     } catch (error) {
-      // res.status(500).json({ message: 'Error updating transportation', error });
+      res.status(500).json({ message: 'Error updating transportation', error })
       next(error)
     }
   }
