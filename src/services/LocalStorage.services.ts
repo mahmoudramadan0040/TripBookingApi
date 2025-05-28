@@ -1,13 +1,16 @@
 import multer from 'multer';
 import path from 'path';
-const uploadLocal = multer.diskStorage({
+import fileFilter from '../middlewares/imageFilter';
+const localStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, '../../uploads'));
+    cb(null, path.join(__dirname,'../../uploads'));
   },
   filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
+    const ext = path.extname(file.originalname)
+    cb(null, uniqueSuffix + ext);
   },
 });
 
 
-export default uploadLocal;
+export const uploadLocal = multer({storage:localStorage,fileFilter});

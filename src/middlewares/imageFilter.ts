@@ -1,11 +1,14 @@
-import multer from 'multer';
-import storage from '../config/cloudinary'
-const fileFilter = (req: any, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
+import multer from 'multer'
+// Accept only images
+const fileFilter = (
+  req: any,
+  file: Express.Multer.File,
+  cb: multer.FileFilterCallback,
+) => {
   if (file.mimetype.startsWith('image/')) {
-    cb(null, true);
+    cb(null, true)
   } else {
-    cb(new Error('Only image files are allowed'));
+    cb(new Error('Only image files are allowed'))
   }
-};
-const upload = multer({storage,fileFilter});
-export default upload;
+}
+export default fileFilter

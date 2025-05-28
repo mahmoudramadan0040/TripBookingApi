@@ -1,18 +1,15 @@
 import { Router } from 'express'
 import TransportationController from '../../controllers/TransportationController'
-import imageFilter from '../../middlewares/imageFilter'
-
+import { uploadLocal } from '../../services/LocalStorage.services'
+import uploadToCloudinary from '../../services/StorageCloud.services'
 // ------------- Transport Router -----------------//
 const routes = Router()
 const transport = new TransportationController()
-
 routes.post(
   '/',
-  imageFilter.fields([
-    { name: 'cloudImages', maxCount: 5 },
-    { name: 'localImages', maxCount: 5 },
-  ]),
+  uploadToCloudinary.fields([{ name: 'cloudImages', maxCount: 20 },{name:'localImages',maxCount:20}]),
   transport.createTransportation,
+  () => {},
 )
 routes.get('/', transport.getAllTransportation)
 routes.get('/:id', transport.getTransportationById)

@@ -21,28 +21,28 @@ class TransportationController {
       // Get Cloudinary uploaded files (if using fieldname: cloudImages)
       const cloudFiles = (req.files as any)?.cloudImages || []
       const localFiles = (req.files as any)?.localImages || []
+
+
       const cloudUrls = Array.isArray(cloudFiles)
         ? cloudFiles.map((file: any) => file.path)
         : [] // Cloudinary URL
+
+
       const localPaths = Array.isArray(localFiles)
         ? localFiles.map((file: Express.Multer.File) => `/${file.filename}`)
         : []
 
-      console.log("=====================included=================")
-      console.log([included])
-      console.log(typeof(included))
 
       const newTransportation = await transportation.create({
         title: title,
         Duration: Duration,
         Description: Description,
-        included: included as string[],
-        // excluded:excluded ,
-        // highlight:highlight ,
-        // price,
-        //  // Expecting array of image URLs or paths
-        // cloudImages:cloudUrls ,
-        // localImages:localPaths
+        included: included,
+        excluded:excluded ,
+        highlight:highlight ,
+        price,
+        cloudImages:cloudUrls ,
+        localImages:localPaths
       })
 
       res
@@ -52,7 +52,6 @@ class TransportationController {
       next(error)
     }
   }
-
   // Get All
   getAllTransportation = async (
     req: Request,
