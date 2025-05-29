@@ -16,6 +16,7 @@ routes.post(
 )
 routes.get('/', transport.getAllTransportation)
 routes.get('/:id', transport.getTransportationById)
+routes.get('/search',transport.searchTransportation)
 routes.put(
   '/:id',
   uploadToCloudinary.fields([

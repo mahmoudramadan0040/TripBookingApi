@@ -31,11 +31,11 @@ Transportation.init(
       allowNull: false,
     },
     price: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
     Duration: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: true,
     },
     included: {

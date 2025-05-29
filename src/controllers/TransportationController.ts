@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import transportation from '../models/Transportation.model'
 import { UpdateToCloudinary } from '../services/StorageCloud.services'
 import TransportationImage from '../models/TransporationImage.model'
-
+import { Op } from 'sequelize'
 class TransportationController {
   // Create Transportation
   createTransportation = async (
@@ -133,7 +133,56 @@ class TransportationController {
       next(error)
     }
   }
+  // search
+  searchTransportation = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const { title, source, destination, type, minPrice, maxPrice } = req.query
 
+      const where: any = {
+        IsDeleted: false, // only fetch active records
+      }
+
+      if (title) {
+        where.title = { [Op.iLike]: `%${title}%` } // case-insensitive
+      }
+
+      if (source) {
+        where.source = { [Op.iLike]: `%${source}%` }
+      }
+
+      if (destination) {
+        where.destination = { [Op.iLike]: `%${destination}%` }
+      }
+
+      if (type) {
+        where.TypeOfTransportation = type
+      }
+
+      if (minPrice || maxPrice) {
+        where.price = {
+          ...(minPrice && { [Op.gte]: Number(minPrice) }),
+          ...(maxPrice && { [Op.lte]: Number(maxPrice) }),
+        }
+      }
+
+      const results = await transportation.findAll({
+        where,
+        order: [['createdAt', 'DESC']],
+      })
+
+      res.status(200).json({ data: results })
+    } catch (error) {
+      console.error('Search error:', error)
+      res
+        .status(500)
+        .json({ message: 'Failed to search transportation', error })
+      next(error)
+    }
+  }
   // Update
   updateTransportation = async (
     req: Request,

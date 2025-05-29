@@ -9,7 +9,7 @@ class Tour extends Model {
   public included!: string[] | null
   public excluded!: string[] | null
   public highlight!: string[] | null
-  public price!: string | null
+  public price!: number | null
   public locations!:string[] |null
   public IsDeleted!: boolean | null
   public readonly createdAt!: Date
@@ -28,11 +28,11 @@ Tour.init(
       allowNull: false,
     },
     price: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
     Duration: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: true,
     },
     included: {

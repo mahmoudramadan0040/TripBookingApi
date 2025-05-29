@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import Tour from '../models/Tour.model'
 import TourImage from '../models/TourImage.model'
+import { Op } from 'sequelize'
 class TourController {
   // Create Tour
   createTour = async (req: Request, res: Response, next: NextFunction) => {
@@ -94,7 +95,7 @@ class TourController {
       const tour = await Tour.findByPk(id)
 
       if (!tour || tour.IsDeleted) {
-         res.status(404).json({ message: 'Tour not found' })
+        res.status(404).json({ message: 'Tour not found' })
       }
 
       res.json({ data: tour })
@@ -102,7 +103,42 @@ class TourController {
       next(error)
     }
   }
+  // search tour
+  searchTours = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { title, location, minPrice, maxPrice } = req.query
 
+      const where: any = {
+        IsDeleted: false,
+      }
+
+      if (title) {
+        where.title = { [Op.iLike]: `%${title}%` } // PostgreSQL partial match
+      }
+
+      if (location) {
+        where.locations = { [Op.overlap]: [String(location)] } // PostgreSQL array match
+      }
+
+      if (minPrice || maxPrice) {
+        where.price = {
+          ...(minPrice && { [Op.gte]: Number(minPrice) }),
+          ...(maxPrice && { [Op.lte]: Number(maxPrice) }),
+        }
+      }
+
+      const results = await Tour.findAll({
+        where,
+        order: [['createdAt', 'DESC']],
+      })
+
+      res.status(200).json({ data: results })
+    } catch (error) {
+      console.error('Search tour error:', error)
+      res.status(500).json({ message: 'Failed to search tours', error })
+      next(error)
+    }
+  }
   // Update Tour
   updateTour = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -112,7 +148,7 @@ class TourController {
       })
 
       if (!updated) {
-         res.status(404).json({ message: 'Tour not found or no changes' })
+        res.status(404).json({ message: 'Tour not found or no changes' })
       }
 
       const updatedTour = await Tour.findByPk(id)
@@ -129,7 +165,7 @@ class TourController {
       const deleted = await Tour.destroy({ where: { id } })
 
       if (!deleted) {
-         res.status(404).json({ message: 'Tour not found' })
+        res.status(404).json({ message: 'Tour not found' })
       }
 
       res.json({ message: 'Tour deleted permanently' })

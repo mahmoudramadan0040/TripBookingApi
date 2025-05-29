@@ -16,6 +16,7 @@ routes.post(
 )
 routes.get('/', tour.getAllTours)
 routes.get('/:id', tour.getTourById )
+routes.get('search',tour.searchTours)
 routes.put(
   '/:id',
   uploadToCloudinary.fields([
