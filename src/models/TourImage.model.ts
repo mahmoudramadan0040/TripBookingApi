@@ -40,7 +40,7 @@ TourImage.init(
     },
   },
   {
-    tableName: 'transportation_images',
+    tableName: 'tour_images',
     timestamps: true,
     sequelize,
   },

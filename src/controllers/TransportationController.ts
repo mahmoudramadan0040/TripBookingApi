@@ -92,7 +92,7 @@ class TransportationController {
       const options: any = {
         order: [['createdAt', 'DESC']],
         include: [{ model: TransportationImage, as: 'images' }],
-        where: { IsDeleted: false }, // add this line
+        where: { IsDeleted: false || null }, // add this line
       }
       if (limit && limit > 0) {
         options.limit = limit
@@ -105,6 +105,10 @@ class TransportationController {
         count: rows.length,
         data: rows,
       })
+
+      // res.json({
+      //   data: await transportation.findAll({where:{IsDeleted:null}})
+      // })
     } catch (error) {
       res.status(500).json({ message: 'Error fetching transportation', error })
     }
