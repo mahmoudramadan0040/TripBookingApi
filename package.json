@@ -46,6 +46,7 @@
     "pg-hstore": "^2.3.4",
     "prettier": "^3.5.3",
     "sequelize": "^6.37.7",
+    "serverless-http": "^3.2.0",
     "swagger-ui-express": "^5.0.1",
     "ts-node": "^10.9.2",
     "yamljs": "^0.3.0"
