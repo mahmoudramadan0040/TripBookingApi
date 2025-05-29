@@ -26,6 +26,7 @@ app.use(
   }),
 )
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+app.use('/public', express.static("public"));
 app.use(morgan('common'))
 app.use(express.json())
 app.use(passport.initialize())
