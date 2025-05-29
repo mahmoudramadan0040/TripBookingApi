@@ -1,16 +1,16 @@
 import { Model, DataTypes, Sequelize } from 'sequelize'
 import sequelize from '../database/connect'
-import Transportation from './Transportation.model'
+import Tour from './Tour.model'
 
 // TransportationImage model
-class TransportationImage extends Model {
+class TourImage extends Model {
   public id!: number
   public localImage!: string
   public cloudImage!: string
   public transportationId!: number
 }
 
-TransportationImage.init(
+TourImage.init(
   {
     id: {
       type: DataTypes.UUID,
@@ -29,11 +29,11 @@ TransportationImage.init(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    transportationId: {
+    TourId: {
       type: DataTypes.UUID,
       allowNull: false,
       references: {
-        model: 'transportation',
+        model: 'tour',
         key: 'id',
       },
       onDelete: 'CASCADE', // delete images if transportation deleted
@@ -46,14 +46,14 @@ TransportationImage.init(
   },
 )
 
-Transportation.hasMany(TransportationImage, {
-  foreignKey: 'transportationId',
+Tour.hasMany(TourImage, {
+  foreignKey: 'TourId',
   as: 'images', // alias for eager loading
   onDelete: 'CASCADE', // optional, cascade deletes
 })
 
-TransportationImage.belongsTo(Transportation, {
-  foreignKey: 'transportationId',
+TourImage.belongsTo(Tour, {
+  foreignKey: 'TourId',
   as: 'transportation',
 })
-export default TransportationImage
+export default TourImage

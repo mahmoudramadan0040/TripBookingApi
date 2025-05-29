@@ -1,7 +1,7 @@
 import { DataTypes, Model, Optional } from 'sequelize'
 import sequelize from '../database/connect'
 
-class Transportion extends Model {
+class Transportation extends Model {
   public id!: string
   public title!: string
   public Duration!: number
@@ -12,10 +12,14 @@ class Transportion extends Model {
   public localImages!: string[] | null
   public cloudImages!: string[] | null
   public price!: string | null
+  public IsDeleted!: boolean | null
+  public destination!:string|null
+  public source!:string|null
+  public TypeOfTransportation!: 'Bus' | 'Train' | 'Flight' | 'Boat'
   public readonly createdAt!: Date
   public readonly updatedAt!: Date
 }
-Transportion.init(
+Transportation.init(
   {
     id: {
       type: DataTypes.UUID,
@@ -50,6 +54,18 @@ Transportion.init(
       type: DataTypes.BOOLEAN,
       allowNull: true,
     },
+    source: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    destination:{
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    TypeOfTransportation:{
+      type: DataTypes.ENUM('Bus', 'Train', 'Flight', 'Boat'),
+      allowNull: false,
+    }
   },
   {
     sequelize,
@@ -58,4 +74,4 @@ Transportion.init(
   },
 )
 
-export default Transportion
+export default Transportation

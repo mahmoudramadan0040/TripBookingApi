@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import transportation from '../models/transportation.model'
+import transportation from '../models/Transportation.model'
 import { UpdateToCloudinary } from '../services/StorageCloud.services'
 import TransportationImage from '../models/TransporationImage.model'
 
@@ -35,22 +35,22 @@ class TransportationController {
       const localFiles = (req.files as any)?.localImages || []
 
       const cloudUrls = Array.isArray(cloudFiles)
-        ? cloudFiles.map((file: any) => file.path)
+        ? cloudFiles.map((file: any) => ({
+            cloudImage: file.path,
+            publicId: file.filename,
+            transportationId: newTransportation.id,
+          }))
         : [] // Cloudinary URL
 
       const localPaths = Array.isArray(localFiles)
         ? localFiles.map((file: Express.Multer.File) => `/${file.filename}`)
         : []
-
       // 2. Prepare TransportationImage records
       // Assuming TransportationImage model is imported as TransportationImage
 
       // Add cloud images
       const imageRecords = [
-        ...cloudUrls.map((url) => ({
-          cloudImage: url,
-          transportationId: newTransportation.id,
-        })),
+        ...cloudUrls,
         ...localPaths.map((path) => ({
           localImage: path,
           transportationId: newTransportation.id,
@@ -68,12 +68,10 @@ class TransportationController {
           include: [{ model: TransportationImage, as: 'images' }],
         },
       )
-      res
-        .status(201)
-        .json({
-          message: 'Transportation created',
-          data: createdTransportWithImages,
-        })
+      res.status(201).json({
+        message: 'Transportation created',
+        data: createdTransportWithImages,
+      })
     } catch (error) {
       next(error)
     }
@@ -85,8 +83,28 @@ class TransportationController {
     next: NextFunction,
   ) => {
     try {
-      const transportations = await transportation.findAll()
-      res.json({ data: transportations })
+      // Optional: parse limit and offset from query params (for pagination)
+      const limit =
+        req.query.limit !== undefined ? Number(req.query.limit) : undefined
+      const offset =
+        req.query.offset !== undefined ? Number(req.query.offset) : 0
+      // Build options dynamically
+      const options: any = {
+        order: [['createdAt', 'DESC']],
+        include: [{ model: TransportationImage, as: 'images' }],
+        where: { IsDeleted: false }, // add this line
+      }
+      if (limit && limit > 0) {
+        options.limit = limit
+        options.offset = offset
+      }
+      const { count, rows } = await transportation.findAndCountAll(options)
+
+      res.json({
+        total: count,
+        count: rows.length,
+        data: rows,
+      })
     } catch (error) {
       res.status(500).json({ message: 'Error fetching transportation', error })
     }
@@ -100,12 +118,14 @@ class TransportationController {
   ) => {
     try {
       const { id } = req.params
-      const result = await transportation.findByPk(id)
+      const result = await transportation.findByPk(id, {
+        include: [{ model: TransportationImage, as: 'images' }], // include images if needed
+      })
       if (!result) res.status(404).json({ message: 'Not found' })
 
       res.json({ data: transportation })
     } catch (error) {
-      // res.status(500).json({ message: 'Error fetching transportation', error });
+      res.status(500).json({ message: 'Error fetching transportation', error })
       next(error)
     }
   }
@@ -138,7 +158,7 @@ class TransportationController {
     }
   }
 
-  // Delete
+  // Delete Hard
   deleteTransportation = async (
     req: Request,
     res: Response,
@@ -153,6 +173,28 @@ class TransportationController {
       res.json({ message: 'Deleted successfully' })
     } catch (error) {
       // res.status(500).json({ message: 'Error deleting transportation', error });
+      next(error)
+    }
+  }
+
+  // soft delete
+  SoftdeleteTransportation = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const { id } = req.params
+
+      const transport = await transportation.findByPk(id)
+      if (!transport) {
+        return res.status(404).json({ message: 'Not found' })
+      }
+      transport.IsDeleted = true
+      await transport.save()
+
+      res.json({ message: 'Deleted successfully (soft delete)' })
+    } catch (error) {
       next(error)
     }
   }
