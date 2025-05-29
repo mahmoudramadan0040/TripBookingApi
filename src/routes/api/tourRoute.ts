@@ -16,7 +16,7 @@ routes.post(
 )
 routes.get('/', tour.getAllTours)
 routes.get('/:id', tour.getTourById )
-routes.get('search',tour.searchTours)
+routes.get('/search',tour.searchTours)
 routes.put(
   '/:id',
   uploadToCloudinary.fields([
@@ -25,6 +25,7 @@ routes.put(
   ]),
   tour.updateTour,
 )
+routes.put('/soft_delete',tour.softDeleteTour)
 routes.delete('/:id', tour.deleteTour)
 
 export default routes

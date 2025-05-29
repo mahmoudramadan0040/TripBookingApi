@@ -241,10 +241,11 @@ class TransportationController {
 
       const transport = await transportation.findByPk(id)
       if (!transport) {
-        return res.status(404).json({ message: 'Not found' })
+        res.status(404).json({ message: 'Not found' })
+      } else {
+        transport.IsDeleted = true
+        await transport.save()
       }
-      transport.IsDeleted = true
-      await transport.save()
 
       res.json({ message: 'Deleted successfully (soft delete)' })
     } catch (error) {

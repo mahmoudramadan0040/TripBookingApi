@@ -25,6 +25,7 @@ routes.put(
   ]),
   transport.updateTransportation,
 )
+routes.put("/soft_delete",transport.SoftdeleteTransportation)
 routes.delete('/:id', transport.deleteTransportation)
 
 export default routes

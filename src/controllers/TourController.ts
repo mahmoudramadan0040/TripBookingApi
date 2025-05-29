@@ -181,11 +181,11 @@ class TourController {
       const tour = await Tour.findByPk(id)
 
       if (!tour) {
-        return res.status(404).json({ message: 'Tour not found' })
+        res.status(404).json({ message: 'Tour not found' })
+      } else {
+        tour.IsDeleted = true
+        await tour.save()
       }
-
-      tour.IsDeleted = true
-      await tour.save()
 
       res.json({ message: 'Tour soft deleted successfully' })
     } catch (error) {
