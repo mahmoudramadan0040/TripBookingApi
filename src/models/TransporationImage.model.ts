@@ -31,7 +31,7 @@ TransportationImage.init(
     },
     transportationId: {
       type: DataTypes.UUID,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'transportation',
         key: 'id',

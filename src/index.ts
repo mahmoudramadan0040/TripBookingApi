@@ -15,8 +15,8 @@ import path from 'path'
 const app = express()
 const port = config.port || 3000
 
-// const swaggerDocument = YAML.load('./swagger.yaml');
-// app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+const swaggerDocument = YAML.load('./swagger.yaml');
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // use the session middleware
 app.use(
   session({

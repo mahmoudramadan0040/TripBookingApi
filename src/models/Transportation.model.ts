@@ -64,7 +64,7 @@ Transportation.init(
     },
     TypeOfTransportation:{
       type: DataTypes.ENUM('Bus', 'Train', 'Flight', 'Boat'),
-      allowNull: false,
+      allowNull: true,
     }
   },
   {

@@ -31,7 +31,7 @@ TourImage.init(
     },
     TourId: {
       type: DataTypes.UUID,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'tour',
         key: 'id',
