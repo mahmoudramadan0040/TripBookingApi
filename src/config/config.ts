@@ -1,4 +1,5 @@
 import dotenv from 'dotenv'
+import pg from 'pg';
 dotenv.config()
 const {
   PORT,
@@ -45,7 +46,6 @@ const config = {
 
   cloud_stroge_name:STORAGE_CLOUD_NAME,
   cloud_storage_key:STORAGE_CLOUD_KEY,
-  cloud_storage_secret:STORAGE_CLOUD_PASSWORD
-
+  cloud_storage_secret:STORAGE_CLOUD_PASSWORD,
 }
 export default config
