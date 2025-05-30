@@ -10,11 +10,11 @@ import session from 'express-session'
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import path from 'path'
-
+import cors from "cors"
 
 const app = express()
 const port = config.port || 3000
-
+app.use(cors());
 const swaggerDocument = YAML.load('./swagger.yaml');
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // use the session middleware

@@ -36,11 +36,11 @@ Tour.init(
       allowNull: true,
     },
     Description: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT('medium'),
       allowNull: true,
     },
     FullDescription: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT('medium'),
       allowNull: true,
     },
     included: {

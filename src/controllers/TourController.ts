@@ -70,7 +70,7 @@ class TourController {
 
       const options: any = {
         order: [['createdAt', 'DESC']],
-        where: { IsDeleted: false },
+        where: { IsDeleted: false||null },
         include: [{ model: TourImage, as: 'images' }],
       }
 
