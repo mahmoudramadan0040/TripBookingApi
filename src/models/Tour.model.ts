@@ -4,7 +4,7 @@ import TransportationImage from './TransporationImage.model'
 class Tour extends Model {
   public id!: string
   public title!: string
-  public Duration!: number |null
+  public Duration!: number | null
   public Description!: string
   public included!: string[] | null
   public excluded!: string[] | null
@@ -59,7 +59,25 @@ Tour.init(
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: true,
     },
+    Governorate: {
+      type: DataTypes.ENUM,
+      allowNull: true,
+      values: [
+        'Cairo',
+        'Luxor',
+        'Aswan',
+        'Alexandria',
+        'Sharm El Sheikh',
+        'Hurghada',
+        'Dahab',
+        'Sohag',
+      ],
+    },
     IsDeleted: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+    },
+    IsFeatured: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
     },

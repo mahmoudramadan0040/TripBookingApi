@@ -473,5 +473,20 @@ components:
           IsDeleted:
             type: boolean
             default: false
+          IsFeatured:
+            type: boolean
+            default: false
+          Governorate:
+            type: string
+            enum:
+              - Cairo
+              - Luxor
+              - Aswan
+              - Alexandria
+              - Sharm El Sheikh
+              - Hurghada
+              - Dahab
+              - Sohag
+            description: Select one of the predefined governorates
 
     
