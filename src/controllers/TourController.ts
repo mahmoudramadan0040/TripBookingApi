@@ -71,6 +71,7 @@ class TourController {
       const options: any = {
         order: [['createdAt', 'DESC']],
         where: { IsDeleted: false },
+        include: [{ model: TourImage, as: 'images' }],
       }
 
       if (limit && limit > 0) {
