@@ -11,11 +11,11 @@ class Transportation extends Model {
   public highlight!: string[] | null
   public localImages!: string[] | null
   public cloudImages!: string[] | null
-  public price!: string | null
+  public price!: number | null
   public IsDeleted!: boolean | null
   public destination!:string|null
   public source!:string|null
-  public TypeOfTransportation!: 'Bus' | 'Train' | 'Flight' | 'Boat'
+  public TypeOfTransportation!: 'Sedan' | 'Hatchback' | 'Minivan' | 'Boat'
   public readonly createdAt!: Date
   public readonly updatedAt!: Date
 }
@@ -31,11 +31,11 @@ Transportation.init(
       allowNull: false,
     },
     price: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DECIMAL,
       allowNull: true,
     },
     Duration: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
     included: {

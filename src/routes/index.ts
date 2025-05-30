@@ -4,7 +4,7 @@ import transportRoute from "./api/trasnportRoute"
 import tourRoute from "./api/tourRoute"
 const routes =Router();
 
-routes.use("/tour",tourRoute);
+routes.use("/tours",tourRoute);
 routes.use("/transport",transportRoute);
 routes.use("/auth",authRoute);
 export default routes;

@@ -15,6 +15,7 @@ class TourController {
         highlight,
         price,
         locations,
+        FullDescription
       } = req.body
 
       const newTour = await Tour.create({
@@ -26,6 +27,7 @@ class TourController {
         highlight,
         price,
         locations,
+        FullDescription
       })
 
       const cloudFiles = (req.files as any)?.cloudImages || []
@@ -34,7 +36,7 @@ class TourController {
       const cloudImages = cloudFiles.map((file: any) => ({
         cloudImage: file.path,
         publicId: file.filename,
-        tourId: newTour.id,
+        TourId: newTour.id,
       }))
 
       const localImages = localFiles.map((file: Express.Multer.File) => ({
@@ -43,7 +45,7 @@ class TourController {
       }))
 
       const imageRecords = [...cloudImages, ...localImages]
-
+      console.log(imageRecords)
       if (imageRecords.length > 0) {
         await TourImage.bulkCreate(imageRecords)
       }

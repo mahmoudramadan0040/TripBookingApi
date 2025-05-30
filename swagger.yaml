@@ -5,7 +5,7 @@ info:
   description: Trip Api Document
 
 servers:
-  - url: http://localhost:3000
+  - url: http://localhost:5000
 paths:
   /api/auth/login:
     post:
@@ -178,6 +178,193 @@ paths:
         '500':
           description: Server error
   
+
+    /tours:
+    post:
+      summary: Create a new tour
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                Duration:
+                  type: string
+                Description:
+                  type: string
+                included:
+                  type: array
+                  items:
+                    type: string
+                excluded:
+                  type: array
+                  items:
+                    type: string
+                highlight:
+                  type: array
+                  items:
+                    type: string
+                price:
+                  type: integer
+                locations:
+                  type: array
+                  items:
+                    type: string
+                cloudImages:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                localImages:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        '201':
+          description: Tour created successfully
+
+    get:
+      summary: Get all tours
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+        - in: query
+          name: offset
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of all tours
+
+  /api/tours:
+    get:
+      summary: Get a all Tour 
+      responses:
+        '200':
+          description: Tours found
+        '404':
+          description: Tours not found
+  /api/tours/tour:
+    post:
+        summary: Create a new tour entry
+        requestBody:
+          required: true
+          content:
+            multipart/form-data:
+              schema:
+                $ref: '#/components/schemas/TourUpdate'
+              encoding:          
+                included:
+                  style: form
+                  explode: true
+                excluded:
+                  style: form
+                  explode: true
+                highlight:
+                  style: form
+                  explode: true
+                cloudImages:
+                  style: form
+                  explode: true
+                localImages:
+                  style: form
+                  explode: true
+                locations:
+                  style: form
+                  explode: true
+        responses:
+          '201':
+            description: Created successfully
+          '400':
+            description: Bad request
+        
+  /api/tours/search:
+    get:
+      summary: Search for tours
+      parameters:
+        - in: query
+          name: title
+          schema:
+            type: string
+        - in: query
+          name: location
+          schema:
+            type: string
+        - in: query
+          name: minPrice
+          schema:
+            type: integer
+        - in: query
+          name: maxPrice
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of matching tours
+
+  /api/tours/tour/{id}:
+    get:
+      summary: Get a tour by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Tour found
+        '404':
+          description: Tour not found
+
+    patch:
+      summary: Update a tour by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TourUpdate'
+      responses:
+        '200':
+          description: Tour updated
+
+    delete:
+      summary: Hard delete a tour by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Tour deleted
+
+  /api/tours/tour/{id}/soft-delete:
+    patch:
+      summary: Soft delete a tour by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Tour soft deleted
+ 
 components:
   schemas:
     Transportation:
@@ -228,4 +415,63 @@ components:
           default: false
       required:
         - title
-  
+    TourUpdate:
+        type: object
+        properties:
+          title:
+            type: string
+            example: "Giza pyramids and Sphinx. “With camel ride”"
+          price:
+            type: number
+            format: double 
+            example: 199.99
+          Description:
+            type: string
+            example: "Explore the Pyramids of Giza and the Great Sphinx on a half-day tour of Cairo with hotel transfers. Enjoy a short camel ride near the pyramids, immersing yourself in the spirit of ancient Egypt."
+          FullDescription:
+            type: string
+            example: "Explore the Pyramids of Giza and the Great Sphinx on a half-day tour of Cairo with hotel transfers. Enjoy a short camel ride near the pyramids, immersing yourself in the spirit of ancient Egypt."
+          Duration:
+            type: number
+            example: 3
+          included:
+            type: array
+            items:
+              type: string
+            example: ["Hotel pickup and drop-off", "Transportation by air-conditioned vehicle", "Entry ticket"]
+          excluded:
+            type: array
+            items:
+              type: string
+            example: ["Entry ticket to go inside any Pyramid", "Lunch expenses","Tips"]
+          locations:
+            type: array
+            items:
+              type: string
+            example: ["Giza pyramids", "Sphinx"]
+          highlight:
+            type: array
+            items:
+              type: string
+            example: ["Uncover ancient Egyptian history on a private tour of the Giza Pyramids", "Marvel at the Great Sphinx of Giza, a limestone statue of a reclining sphinx"]
+          cloudImages:
+            type: array
+            items:
+              type: string
+              format: binary
+            example:
+              - "https://res.cloudinary.com/.../image1.jpg"
+              - "https://res.cloudinary.com/.../image2.jpg"
+          localImages:
+            type: array
+            items:
+              type: string
+              format: binary
+            example:
+              - "/uploads/image1.jpg"
+              - "/uploads/image2.jpg"
+          IsDeleted:
+            type: boolean
+            default: false
+
+    

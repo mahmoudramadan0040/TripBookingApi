@@ -4,13 +4,13 @@ import TransportationImage from './TransporationImage.model'
 class Tour extends Model {
   public id!: string
   public title!: string
-  public Duration!: number
+  public Duration!: number |null
   public Description!: string
   public included!: string[] | null
   public excluded!: string[] | null
   public highlight!: string[] | null
   public price!: number | null
-  public locations!:string[] |null
+  public locations!: string[] | null
   public IsDeleted!: boolean | null
   public readonly createdAt!: Date
   public readonly updatedAt!: Date
@@ -28,10 +28,18 @@ Tour.init(
       allowNull: false,
     },
     price: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DECIMAL,
       allowNull: true,
     },
     Duration: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    Description: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    FullDescription: {
       type: DataTypes.STRING,
       allowNull: true,
     },
