@@ -59,6 +59,10 @@ Tour.init(
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: true,
     },
+    ActitvityDetails:{
+        type: DataTypes.JSON,
+        allowNull: true,
+    },
     Governorate: {
       type: DataTypes.ENUM,
       allowNull: true,

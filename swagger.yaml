@@ -258,7 +258,7 @@ paths:
           content:
             multipart/form-data:
               schema:
-                $ref: '#/components/schemas/TourUpdate'
+                $ref: '#/components/schemas/Tour'
               encoding:          
                 included:
                   style: form
@@ -415,7 +415,7 @@ components:
           default: false
       required:
         - title
-    TourUpdate:
+    Tour:
         type: object
         properties:
           title:
@@ -488,5 +488,17 @@ components:
               - Dahab
               - Sohag
             description: Select one of the predefined governorates
-
+          activityDetails:
+                  type: object
+                  properties:
+                    reserveNowPayLater:
+                      type: boolean
+                    duration:
+                      type: string
+                    skipTheTicketLine:
+                      type: boolean
+                    liveTourGuide:
+                      type: boolean
+                    pickupIncluded:
+                      type: string
     

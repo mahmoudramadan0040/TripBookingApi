@@ -17,7 +17,8 @@ class TourController {
         locations,
         FullDescription,
         IsFeatured,
-        Governorate
+        Governorate,
+        ActivityDetails
       } = req.body
 
       const newTour = await Tour.create({
@@ -31,7 +32,8 @@ class TourController {
         locations,
         FullDescription,
         IsFeatured,
-        Governorate
+        Governorate,
+        ActivityDetails
       })
 
       const cloudFiles = (req.files as any)?.cloudImages || []
