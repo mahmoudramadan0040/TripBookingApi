@@ -481,6 +481,7 @@ components:
             enum:
               - Cairo
               - Luxor
+              - Giza
               - Aswan
               - Alexandria
               - Sharm El Sheikh
@@ -501,4 +502,10 @@ components:
                       type: boolean
                     pickupIncluded:
                       type: string
-    
+          category:
+            type: string
+            enum:
+                - Favorit
+                - Special
+                - Popular
+            description: Select one of the predefined category    

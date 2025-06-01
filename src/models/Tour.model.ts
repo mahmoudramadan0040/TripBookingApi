@@ -31,6 +31,10 @@ Tour.init(
       type: DataTypes.DECIMAL,
       allowNull: true,
     },
+    offer: {
+      type: DataTypes.DECIMAL,
+      allowNull: true,
+    },
     Duration: {
       type: DataTypes.INTEGER,
       allowNull: true,
@@ -59,9 +63,9 @@ Tour.init(
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: true,
     },
-    ActitvityDetails:{
-        type: DataTypes.JSON,
-        allowNull: true,
+    ActitvityDetails: {
+      type: DataTypes.JSON,
+      allowNull: true,
     },
     Governorate: {
       type: DataTypes.ENUM,
@@ -69,6 +73,7 @@ Tour.init(
       values: [
         'Cairo',
         'Luxor',
+        'Giza',
         'Aswan',
         'Alexandria',
         'Sharm El Sheikh',
@@ -76,6 +81,11 @@ Tour.init(
         'Dahab',
         'Sohag',
       ],
+    },
+    category: {
+      type: DataTypes.ENUM,
+      allowNull: true,
+      values: ['Favorit', 'Popular', 'Special'],
     },
     IsDeleted: {
       type: DataTypes.BOOLEAN,
