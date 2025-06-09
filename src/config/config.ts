@@ -21,7 +21,8 @@ const {
   EMAIL_ADMIN_PASSWORD,
   STORAGE_CLOUD_NAME,
   STORAGE_CLOUD_PASSWORD,
-  STORAGE_CLOUD_KEY
+  STORAGE_CLOUD_KEY,
+  CLIENT_URL
 } = process.env
 
 const config = {
@@ -43,7 +44,7 @@ const config = {
 
   email_admin_sender:EMAIL_ADMIN_SENDER,
   email_admin_password:EMAIL_ADMIN_PASSWORD,
-
+  client_url:CLIENT_URL,
   cloud_stroge_name:STORAGE_CLOUD_NAME,
   cloud_storage_key:STORAGE_CLOUD_KEY,
   cloud_storage_secret:STORAGE_CLOUD_PASSWORD,

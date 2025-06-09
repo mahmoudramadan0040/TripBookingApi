@@ -14,7 +14,10 @@ import cors from "cors"
 
 const app = express()
 const port = config.port || 3000
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:3000", // your Next.js frontend
+  credentials: true                // Allow cookies
+}));
 const swaggerDocument = YAML.load('./swagger.yaml');
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // use the session middleware
@@ -23,6 +26,10 @@ app.use(
     secret: config.express_session_secret!, // session secret
     resave: false,
     saveUninitialized: false,
+    rolling:true,
+    cookie: {
+      maxAge: 1000 * 60 * 30 // 30 minutes
+    }
   }),
 )
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));

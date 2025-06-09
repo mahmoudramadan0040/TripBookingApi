@@ -44,7 +44,12 @@ paths:
               required:
                 - email
                 - password
+                - username
               properties:
+                username:
+                  type: string
+                  format: string
+                  example: mahmoud0020
                 email:
                   type: string
                   format: email

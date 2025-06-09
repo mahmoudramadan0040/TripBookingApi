@@ -14,6 +14,7 @@ class User
   public id!: string
   public email!: string
   public password!: string
+  public username!:string
   public isVerified!: boolean
   public verificationCode?: string | null
 
@@ -36,6 +37,11 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+    },
+    username:{
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: false,
     },
     password: {
       type: DataTypes.STRING,
