@@ -22,7 +22,10 @@ const {
   STORAGE_CLOUD_NAME,
   STORAGE_CLOUD_PASSWORD,
   STORAGE_CLOUD_KEY,
-  CLIENT_URL
+  CLIENT_URL,
+  PAYPAL_CLIENT_ID,
+  PAYPAL_CLIENT_SECRET,
+  PAYPAL_API
 } = process.env
 
 const config = {
@@ -48,5 +51,9 @@ const config = {
   cloud_stroge_name:STORAGE_CLOUD_NAME,
   cloud_storage_key:STORAGE_CLOUD_KEY,
   cloud_storage_secret:STORAGE_CLOUD_PASSWORD,
+  paypal_client_id:PAYPAL_CLIENT_ID,
+  paypal_client_secret:PAYPAL_CLIENT_SECRET,
+  paypal_api:PAYPAL_API
+
 }
 export default config

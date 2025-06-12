@@ -1,6 +1,8 @@
 import { DataTypes, Model, Optional } from 'sequelize'
 import sequelize from '../database/connect'
 import TransportationImage from './TransporationImage.model'
+import Transaction from './Transaction.model'
+import TransactionTour from './TransactionTour.model'
 class Tour extends Model {
   public id!: string
   public title!: string
@@ -102,4 +104,14 @@ Tour.init(
     timestamps: true,
   },
 )
+// Tour association (many-to-many via TransactionTour)
+Transaction.belongsToMany(Tour, {
+  through: TransactionTour,
+  foreignKey: 'transactionId',
+})
+Tour.belongsToMany(Transaction, {
+  through: TransactionTour,
+  foreignKey: 'tourId',
+})
+
 export default Tour

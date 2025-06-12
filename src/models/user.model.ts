@@ -1,8 +1,8 @@
 import { DataTypes, Model, Optional } from 'sequelize'
 import sequelize from '../database/connect'
-import UserAttributes from '../interfaces/user.interface';
+import UserAttributes from '../interfaces/user.interface'
 import bcrypt from 'bcrypt'
-
+import Transaction from './Transaction.model'
 
 interface UserCreationAttributes
   extends Optional<UserAttributes, 'id' | 'isVerified' | 'verificationCode'> {}
@@ -14,7 +14,7 @@ class User
   public id!: string
   public email!: string
   public password!: string
-  public username!:string
+  public username!: string
   public isVerified!: boolean
   public verificationCode?: string | null
 
@@ -38,7 +38,7 @@ User.init(
       allowNull: false,
       unique: true,
     },
-    username:{
+    username: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: false,
@@ -74,5 +74,8 @@ User.init(
     },
   },
 )
+
+Transaction.belongsTo(User, { foreignKey: 'userId' })
+User.hasMany(Transaction, { foreignKey: 'userId' })
 
 export default User
