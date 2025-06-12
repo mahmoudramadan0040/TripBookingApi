@@ -11,9 +11,14 @@ import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import path from 'path'
 import cors from "cors"
+import { requestLogger } from './middlewares/requestLogger'
+import { errorLogger } from './middlewares/errorLoggeer'
 
 const app = express()
 const port = config.port || 3000
+
+
+app.use(requestLogger);
 app.use(cors({
   origin: "http://localhost:3000", // your Next.js frontend
   credentials: true                // Allow cookies
@@ -48,7 +53,7 @@ app.use('/api', routes)
 // error handler middleware
 
 app.use(errorHandler)
-
+app.use(errorLogger); // should be after routes
 app.listen(port, () => {
   console.log(`server start listing on port ${port}`)
 })
